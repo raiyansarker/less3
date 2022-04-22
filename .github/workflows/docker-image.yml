@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build-ingress-controller:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Publish to Github Docker Registry
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        with:
+          name: raiyansarker/package/less3
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: Less3
+          tags: "latest,${{ env.STATE_RELEASE_VERSION }}"
+          snapshot: true
